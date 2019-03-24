@@ -1,0 +1,52 @@
+spawn用法
+spawn shell-command
+只有spawn执行的命令结果才会被expect捕捉到，因为spawn会启动一个进程，只有这个进程的相关信息才会被捕捉到，
+主要包括：标准输入的提示信息，eof和timeout，不包括由spwan触发的进程的返回信息（如脚本echo的内容）
+
+timeout设置
+超时设置，但是这个只是expect服务的超时时间，无法设置命令中涉及到其他服务的超时时间，
+【eg:
+	若spawn中使用了ssh ，则ssh连接超时后会自动返回，
+	服务器中ssh的超时时间在/etc/ssh/sshd_config 中对客户端的连接超时进行设置
+	ClientAliveInterval 300
+	ClientAliveCountMax 0	#因为该值为0，所以300秒内无操作则自动退出，不向客户端发送空包
+	避免超时方法：
+	1）在ssh中使用-o选项   
+	ssh -o ServerAliveInterval=60 -o ServerAliveCountMax=10  --间隔60s向服务器发出空包，发送次数为10，因此可以保证10分钟内不中断连接
+	2）修改用户的配置文件~/.ssh/config
+	3）修改系统通用配置文件 /etc/ssh/ssh_config
+	选项的具体含义可使用man ssh_config 查看】
+	
+set timeout n 应该在spawn前进行设置
+set timeout -1 表示永不超时，但是要注意在expect中设置退出节点，让程序执行完毕后自动返回本地
+--1）在最后的send中增加expect子模块作为退出节点,eg:
+	#!/bin/bash
+	expect -c "
+        set timeout -1
+        spawn ssh zyjs@10.153.145.5
+        expect {
+                \"*default*\"   {send \"1\r\";exp_continue}
+                \"*(yes/no)*\" {send \"yes\r\";exp_continue}
+                \"*assword*\"  {send \"Gw5fv+2017-12\r\";exp_continue}
+                \"*zyjs>\" {
+                            send \"sh /onip/hlwjs/data/mahj/test/sleep.sh 60\r\";
+                            expect \"*zyjs>\" {send \"exit\r\"}
+                           }
+                }
+        "
+	2）在最后新增epect程序块
+	#!/bin/bash
+
+	expect -c "
+        set timeout -1
+        spawn ssh zyjs@10.153.145.5
+        expect {
+                \"*default*\"   {send \"1\r\";exp_continue}
+                \"*(yes/no)*\" {send \"yes\r\";exp_continue}
+                \"*assword*\"  {send \"Gw5fv+2017-12\r\";exp_continue}
+                \"*zyjs>\" { send \"sh /onip/hlwjs/data/mahj/test/sleep.sh 0.1\r\";}
+                }
+        expect {
+                \"*zyjs>\" {send \"exit\r\"}
+                }
+		"

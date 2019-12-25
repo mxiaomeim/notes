@@ -137,7 +137,7 @@ You should use backslash escapes for follwing characters:
 |.|dot|
 |!|exclamation mark|
 
-
+End of article.:)
 
 
 

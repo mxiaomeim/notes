@@ -39,39 +39,103 @@ Automatically sorted list ,dont's leak blank after dot,and you should use them i
 >    	Quote1
 >>		Quote2,nested quote in quote1
 >>>		Nested quote in quote2  
+
 - Embed a list in block quote  
 >1. List item one
 >2. List item two  
-- Show how to use block in list item
-1. Use block quote in list item one,you should add one or more tabs before '>',the number of tab depends on the list level.   
+  
+- Show how to use block in list item  
+	- Use block quote in list item one,you should add one or more tabs before '>',the number of tab depends on the list level.   
 	>It's a quote.  
 	>Anoter quote. 
 	>The list is of level one,so we only add one tab before '>'  
-1. List item two
-	1. List level two.
-	1. Add two tabs before '>'  
+	- List item two
+		1. List level two.
+		1. Add two tabs before '>'  
 		>It's a quote.
 
 ## Links  
 1. Add link to the tag  
 Don't put any blanks between (Tags) and \[links\].And in windows system,you should replace \ with / when links to local file.   
 [Git config](C:/Users/lenovo/.gitconfig)  
+1. Add tooltip on the tag  
+[Git config](C:/Users/lenovo/.gitconfig "The configuratin file of Git")  
 1. URLs link  
 Just enclose the URL or email address in angle brackets
 <https://www.markdownguide.org/>
-1. Format links  
-To em
+1. Formatting links  
+Italic format *[Guide](https://www.markdownguide.org/)*  
+Blod format **[Guide](https://www.markdownguide.org/)**  
+1. Reference-style links  
+Place a lable after the tag [Guide][lable]   
+And then place the lable anywhere,but must a new line ahead of the lable.  
+So that you can use the lable more than one time.
+And it's better not to place the lable in the list,because there's a blank line before the lable.  
+Use the lable again [Guide book][lable]   
+<!--A blank line here-->   
+[lable]: https://www.markdownguide.org/
 
 
+## Images  
+1. Embed image from local file  
+![Lifecycle of git](E:/Git/notes/lifecycle.png) 
+2. Reference-style image  
+![Lifecycle of git][p1]
 
-## Images
+[p1]:E:/Git/notes/lifecycle.png
+   
 
 ## Codes
-```
-{
-	print "Hello World";
-}
-```
+1. Denote a word as Code   
+`code`
+1. Code blocks,and palce a tab in front of  \`\`\` when in list    
+	```	
+	{  
+			"name":"John"  
+	}
+	```  
+1. Item3
+
+## Horizon rule
+1. Three ways to use horizon rule
+***
+---
+___
+
+## Tables  
+-  normal tables  
+<!--A blank line here-->
+| Left align | Right align | Center align |
+|:-----------|------------:|:------------:|
+| This       |        This |     This     |
+| column     |      column |    column    |
+| will       |        will |     will     |
+| be         |          be |      be      |
+| left       |       right |    center    |
+| aligned    |     aligned |    aligned   |
+
+##Footnotes
+When click the footnote identifer[^1],it can jump to the note.  
+No matter where you place the footnote, it will appear at the end of the page.
+[^1]: This id the first footnote.
+
+##Backslash escapes  
+You should use backslash escapes for follwing characters: 
+<!--A blank line here-->
+|Character|Description|
+|---------|-----------|
+|\|backslash|
+|`|backtick|
+|*|asterisk|
+|_|underscore|
+|{}|curly braces|
+|[]|square brackets|
+|()|parenthesis|
+|#|hash mark|
+|+|plus sign|
+|-|minus sign|
+|.|dot|
+|!|exclamation mark|
 
 
 
